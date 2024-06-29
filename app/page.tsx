@@ -19,7 +19,7 @@ const Home = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/predict', formData);
+      const response = await axios.post('https://wtflask-2.onrender.com/predict', formData);
       setResult(response.data);
       setIsModalOpen(true);
     } catch (error) {
