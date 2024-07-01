@@ -27,7 +27,7 @@ const AnalyzePage: React.FC = () => {
             setData(results.data);
             setLoading(false);
           },
-          error: (parseError: Papa.ParseError) => {
+          error: (parseError: Error) => {
             setError(`Parse error: ${parseError.message}`);
             setLoading(false);
           },
