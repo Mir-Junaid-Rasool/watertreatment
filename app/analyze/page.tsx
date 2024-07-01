@@ -27,12 +27,12 @@ const AnalyzePage: React.FC = () => {
             setData(results.data);
             setLoading(false);
           },
-          error: (parseError) => {
+          error: (parseError: Papa.ParseError) => {
             setError(`Parse error: ${parseError.message}`);
             setLoading(false);
           },
         });
-      } catch (fetchError) {
+      } catch (fetchError:any) {
         setError(`Fetch error: ${fetchError.message}`);
         setLoading(false);
       }
