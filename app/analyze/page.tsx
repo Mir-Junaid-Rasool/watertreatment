@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Papa from 'papaparse';
+import { parse } from 'csv-parse/browser/esm';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
@@ -25,13 +25,20 @@ const AnalyzePage: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const csvText = await response.text();
-        Papa.parse<DataType>(csvText, {
-          header: true,
-          complete: (results) => {
-            setData(results.data);
+
+        parse(csvText, {
+          columns: true,
+          trim: true,
+        }, (err, output) => {
+          if (err) {
+            setError(`Parse error: ${err.message}`);
             setLoading(false);
-          },
+            return;
+          }
+          setData(output);
+          setLoading(false);
         });
+
       } catch (fetchError: any) {
         console.error("Fetch Error:", fetchError);
         setError(`Fetch error: ${fetchError.message}`);
