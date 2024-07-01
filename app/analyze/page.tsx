@@ -29,7 +29,7 @@ const AnalyzePage: React.FC = () => {
         parse(csvText, {
           columns: true,
           trim: true,
-        }, (err, output) => {
+        }, (err: Error | undefined, output: DataType[]) => {
           if (err) {
             setError(`Parse error: ${err.message}`);
             setLoading(false);
