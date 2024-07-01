@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import { MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import Image from 'next/image';
 
 interface DataType {
   [key: string]: any;
@@ -30,13 +31,12 @@ const AnalyzePage: React.FC = () => {
             setData(results.data);
             setLoading(false);
           },
-          // @ts-ignore
-          error: (parseError) => {
-            setError(`Parse error: ${parseError.message}`);
-            setLoading(false);
+          error: (parseError: any) => { // This line is retained for logging, but won't set error state
+            console.error("Parse Error:", parseError);
           },
         });
       } catch (fetchError: any) {
+        console.error("Fetch Error:", fetchError);
         setError(`Fetch error: ${fetchError.message}`);
         setLoading(false);
       }
@@ -157,7 +157,7 @@ const AnalyzePage: React.FC = () => {
         </BarChart>
       </ResponsiveContainer>
       <h2>Saved Plot</h2>
-      <img src="/feature_importances.png" alt="Feature Importances" style={{align:'center', width: '100%' }} />
+      <Image src="/feature_importances.png" alt="Feature Importances" layout="responsive" width={500} height={300} />
       <style jsx>{`
         .analyze-container {
           padding: 20px;
