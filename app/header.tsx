@@ -24,6 +24,9 @@ const NavBar: React.FC = () => {
       <Link href="/about" className={pathname === "/about" ? styles.active : ""}>
         About
       </Link>
+      <Link href="/analyze" className={pathname === "/analyze" ? styles.active : ""}>
+        Analyze
+      </Link>
     </nav>
   );
 };
