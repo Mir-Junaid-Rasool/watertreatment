@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { csvParse } from 'd3-dsv';
+import axios from 'axios';
+import csvParser from 'csv-parser';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
@@ -20,13 +21,20 @@ const AnalyzePage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/Data-Melbourne_F.csv');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const csvText = await response.text();
-        const parsedData = csvParse<DataType>(csvText, (d: any) => d);
-        setData(parsedData);
+        const response = await axios.get('/Data-Melbourne_F.csv', { responseType: 'blob' });
+        const reader = response.data.stream().getReader();
+        const result = await reader.read();
+        const decoder = new TextDecoder('utf-8');
+        const csvText = decoder.decode(result.value);
+        
+        const rows: DataType[] = [];
+        const parser = csvParser();
+
+        parser.on('data', (data) => rows.push(data));
+        parser.write(csvText);
+        parser.end();
+
+        setData(rows);
         setLoading(false);
       } catch (fetchError: any) {
         console.error("Fetch Error:", fetchError);
