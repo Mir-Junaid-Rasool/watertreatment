@@ -6,8 +6,12 @@ import {
 } from 'recharts';
 import { MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 
+interface DataType {
+  [key: string]: any;
+}
+
 const AnalyzePage: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedColumn, setSelectedColumn] = useState<string>('BOD'); // Default value
@@ -20,13 +24,13 @@ const AnalyzePage: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const csvText = await response.text();
-        Papa.parse(csvText, {
+        Papa.parse<DataType>(csvText, {
           header: true,
           complete: (results) => {
             setData(results.data);
             setLoading(false);
           },
-          error: (parseError: Papa.ParseError) => {
+          error: (parseError) => {
             setError(`Parse error: ${parseError.message}`);
             setLoading(false);
           },
