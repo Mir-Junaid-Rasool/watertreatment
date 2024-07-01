@@ -38,7 +38,6 @@ const AnalyzePage: React.FC = () => {
           setData(output);
           setLoading(false);
         });
-
       } catch (fetchError: any) {
         console.error("Fetch Error:", fetchError);
         setError(`Fetch error: ${fetchError.message}`);
