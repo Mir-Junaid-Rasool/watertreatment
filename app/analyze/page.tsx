@@ -30,7 +30,7 @@ const AnalyzePage: React.FC = () => {
             setData(results.data);
             setLoading(false);
           },
-          error: (parseError) => {
+          error: (parseError: Error) => { // Explicitly specify the type of parseError
             setError(`Parse error: ${parseError.message}`);
             setLoading(false);
           },
