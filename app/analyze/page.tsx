@@ -31,9 +31,6 @@ const AnalyzePage: React.FC = () => {
             setData(results.data);
             setLoading(false);
           },
-          error: (parseError: any) => { // This line is retained for logging, but won't set error state
-            console.error("Parse Error:", parseError);
-          },
         });
       } catch (fetchError: any) {
         console.error("Fetch Error:", fetchError);
