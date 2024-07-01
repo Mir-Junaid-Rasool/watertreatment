@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { parse } from 'csv-parse/browser/esm';
+import { csvParse } from 'd3-dsv';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
@@ -25,19 +25,9 @@ const AnalyzePage: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const csvText = await response.text();
-
-        parse(csvText, {
-          columns: true,
-          trim: true,
-        }, (err: Error | undefined, output: DataType[]) => {
-          if (err) {
-            setError(`Parse error: ${err.message}`);
-            setLoading(false);
-            return;
-          }
-          setData(output);
-          setLoading(false);
-        });
+        const parsedData = csvParse<DataType>(csvText, (d: any) => d);
+        setData(parsedData);
+        setLoading(false);
       } catch (fetchError: any) {
         console.error("Fetch Error:", fetchError);
         setError(`Fetch error: ${fetchError.message}`);
