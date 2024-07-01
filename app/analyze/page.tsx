@@ -1,4 +1,3 @@
-"use client"
 "use client";
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
@@ -27,12 +26,12 @@ const AnalyzePage: React.FC = () => {
             setData(results.data);
             setLoading(false);
           },
-          error: (parseError: Error) => {
+          error: (parseError: Papa.ParseError) => {
             setError(`Parse error: ${parseError.message}`);
             setLoading(false);
           },
         });
-      } catch (fetchError:any) {
+      } catch (fetchError: any) {
         setError(`Fetch error: ${fetchError.message}`);
         setLoading(false);
       }
@@ -167,4 +166,3 @@ const AnalyzePage: React.FC = () => {
 };
 
 export default AnalyzePage;
-
