@@ -14,6 +14,13 @@
     color: #333;
     margin-bottom: 1.5rem;
   }
+  .subtitle {
+    background: rgb(98, 173, 208);
+    box-shadow: 0 4px 8px;
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+  }
   
   .form {
     background: white;

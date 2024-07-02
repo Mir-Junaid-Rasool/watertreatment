@@ -111,9 +111,12 @@ const ScrollingTable: React.FC = () => {
         }
         .button-container {
           margin-bottom: 8px;
+          margin-right:8px;
+    
         }
         button {
           margin-right: 10px;
+          margin-top:8px;
           padding: 10px 20px;
           background-color: #0070f3;
           color: white;

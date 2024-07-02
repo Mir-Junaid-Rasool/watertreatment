@@ -34,6 +34,7 @@ const Home = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Water Treatment Prediction</h1>
+      <h3 className={styles.subtitle}>Predict BOD in Water</h3>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label>Am: </label>
@@ -54,8 +55,8 @@ const Home = () => {
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <h2>Results</h2>
-            <p>Classification Prediction: {result.classification_prediction}</p>
-            <p>Regression Prediction: {result.regression_prediction}</p>
+            <p>BOD Classification Prediction: {result.classification_prediction}</p>
+            <p>BOD Possible Value(Regression): {result.regression_prediction}</p>
             <button onClick={closeModal} className={styles.closeButton}>Close</button>
           </div>
         </div>
