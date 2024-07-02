@@ -5,7 +5,7 @@ import csvParser from 'csv-parser';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
-import { MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { MenuItem, Select, InputLabel, FormControl, SelectChangeEvent } from '@mui/material';
 import Image from 'next/image';
 
 interface DataType {
@@ -90,8 +90,8 @@ const AnalyzePage: React.FC = () => {
   const stats = calculateStats(selectedColumn);
   const featureImportance = calculateFeatureImportance();
 
-  const handleColumnChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectedColumn(event.target.value as string);
+  const handleColumnChange = (event: SelectChangeEvent<string>) => {
+    setSelectedColumn(event.target.value);
   };
 
   return (
