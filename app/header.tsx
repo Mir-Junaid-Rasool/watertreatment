@@ -30,6 +30,9 @@ const NavBar: React.FC = () => {
       <Link href="/description" className={pathname === "/description" ? styles.active : ""}>
         Data-Description
       </Link>
+      <Link href="/predictcod" className={pathname === "/predictcod" ? styles.active : ""}>
+        COD Pred
+      </Link>
     </nav>
   );
 };
