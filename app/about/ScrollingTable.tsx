@@ -95,7 +95,7 @@ const ScrollingTable: React.FC = () => {
             {data.map((row, index) => (
               <tr key={index}>
                 {Object.values(row).map((value, i) => (
-                  <td key={i}>{value}</td>
+                  <td key={i}>{value as React.ReactNode}</td>
                 ))}
               </tr>
             ))}
