@@ -30,7 +30,7 @@ const Home = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://127.0.0.1:5000/codpredict', formData);
+      const response = await axios.post('https://wtflask-2.onrender.com/codpredict', formData);
       setResult(response.data);
       setIsModalOpen(true);
     } catch (error) {

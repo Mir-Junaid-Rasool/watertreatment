@@ -17,12 +17,11 @@ const Home = () => {
       [e.target.name]: e.target.value,
     });
   };
-  // https://wtflask-2.onrender.com/predict
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://127.0.0.1:5000/predict', formData);
+      const response = await axios.post('https://wtflask-2.onrender.com/predict', formData);
       setResult(response.data);
       setIsModalOpen(true);
     } catch (error) {
