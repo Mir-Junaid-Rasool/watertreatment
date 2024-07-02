@@ -1,6 +1,8 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
-import Papa from 'papaparse';
+import axios from 'axios';
+import csvParser from 'csv-parser';
+import { Readable } from 'stream';
 
 const ScrollingTable: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
@@ -10,23 +12,28 @@ const ScrollingTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/Data-Melbourne_F.csv');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const csvText = await response.text();
-        Papa.parse(csvText, {
-          header: true,
-          complete: (results) => {
-            setData(results.data);
-            setLoading(false);
-          },
-          error: (parseError) => {
-            setError(`Parse error: ${parseError.message}`);
-            setLoading(false);
-          },
+        const response = await axios.get('/Data-Melbourne_F.csv', { responseType: 'blob' });
+        const reader = response.data.stream().getReader();
+        const result = await reader.read();
+        const decoder = new TextDecoder('utf-8');
+        const csvText = decoder.decode(result.value);
+        
+        const rows: any[] = [];
+        const parser = csvParser();
+
+        parser.on('data', (data) => rows.push(data));
+        parser.on('end', () => {
+          setData(rows);
+          setLoading(false);
         });
-      } catch (fetchError) {
+        parser.on('error', (parseError) => {
+          setError(`Parse error: ${parseError.message}`);
+          setLoading(false);
+        });
+
+        const stream = Readable.from(csvText);
+        stream.pipe(parser);
+      } catch (fetchError: any) {
         setError(`Fetch error: ${fetchError.message}`);
         setLoading(false);
       }
@@ -36,7 +43,7 @@ const ScrollingTable: React.FC = () => {
   }, []);
 
   const downloadCSV = () => {
-    const csv = Papa.unparse(data);
+    const csv = data.map(row => Object.values(row).join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -147,5 +154,3 @@ const ScrollingTable: React.FC = () => {
 };
 
 export default ScrollingTable;
-
-
