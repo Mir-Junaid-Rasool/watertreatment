@@ -4,10 +4,12 @@ import '../app/globals.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './Home.module.css'
+
 const Home = () => {
   const [formData, setFormData] = useState({ Am: '', COD: '', TN: '' });
   const [result, setResult] = useState<{ classification_prediction?: number; regression_prediction?: number }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -18,12 +20,15 @@ const Home = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await axios.post('https://wtflask-2.onrender.com/predict', formData);
       setResult(response.data);
       setIsModalOpen(true);
     } catch (error) {
       console.error('Error making prediction request:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,12 +56,19 @@ const Home = () => {
         <button type="submit" className={styles.button}>Submit</button>
       </form>
 
+      {isLoading && (
+        <div className={styles.loadingOverlay}>
+          <div className={styles.spinner}></div>
+          <p>Wait, predicting results for you...</p>
+        </div>
+      )}
+
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <h2>Results</h2>
             <p>BOD Classification Prediction: {result.classification_prediction}</p>
-            <p>BOD Possible Value(Regression): {result.regression_prediction}</p>
+            <p>BOD Possible Value (Regression): {result.regression_prediction}</p>
             <button onClick={closeModal} className={styles.closeButton}>Close</button>
           </div>
         </div>
@@ -66,18 +78,3 @@ const Home = () => {
 };
 
 export default Home;
-// export default function Home() {
-//   const [message, setMessage] = useState('');
-
-//   useEffect(() => {
-//     fetch('http://127.0.0.1:5000/')
-//       .then(response => response.json())
-//       .then(data => setMessage(data.message));
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>{message}</h1>
-//     </div>
-//   );
-// }

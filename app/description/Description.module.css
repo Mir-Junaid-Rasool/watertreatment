@@ -1,0 +1,41 @@
+/* styles/Description.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 2rem;
+    background: rgba(0, 0, 0, 0.1);
+    color: rgb(29, 29, 29);
+    font-family: Arial, sans-serif;
+  }
+  
+  .title {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .description {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .description ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .description li {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .description strong {
+    font-weight: bold;
+  }
+  
